@@ -60,3 +60,7 @@ fn main(){
 //cargo lock=What versions are actually used (exact)
 //The parse method on strings converts a string to another type
 //using let guess: u32. The colon (:) after guess tells Rust we’ll annotate the variable’s type.
+//FUNCTIONS=====
+//fn main() {
+  //let x = (let y = 6);}
+//Statements do not return values. Therefore, you can’t assign a let statement to another variable, as the following code tries to do; you’ll get an error:
