@@ -38,7 +38,16 @@ fn makes_copy(some_integer: i32) { // some_integer comes into scope
     println!("{some_integer}");
 } // Here, some_integer goes out of scope. Nothing special happens.
 
+//=========mutable references==============
+fn mutable_refrence() {
+    let mut s = String::from("hello");
 
+    change(&mut s);
+}
+
+fn change(some_string: &mut String) {
+    some_string.push_str(", world");
+}
 
 
 //======== OWNERSHIP=========
