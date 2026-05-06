@@ -217,9 +217,9 @@ fn main() {
 
     let mut map = HashMap::new();
 
-    for word in text.split_whitespace() {
-        let count = map.entry(word).or_insert(0);
-        *count += 1;
+    for word in text.split_whitespace() {// Split the text into words using whitespace as a delimiter and iterate over each word
+        let count = map.entry(word).or_insert(0);// For each word, use the entry method to get a mutable reference to the count of that word in the map. If the word is not already in the map, or_insert(0) will insert it with an initial count of 0 and return a mutable reference to that count.
+        *count += 1;// Increment the count for the word by dereferencing the mutable reference and adding 1 to it
     }
 
     println!("{map:?}");

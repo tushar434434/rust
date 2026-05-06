@@ -149,3 +149,7 @@ fn main() {
 
     println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
 }*/
+
+//==========Performance of genric code==========
+//Genric code is monomorphized at compile time, which means that the compiler generates
+//onomorphization is the process of turning generic code into specific code by filling in the concrete types that are used when compiled.
