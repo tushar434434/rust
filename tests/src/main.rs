@@ -3,3 +3,13 @@
 //Set up any needed data or state.
 //Run the code you want to test.
 //Assert that the results are what you expect.
+//Here's an example of a simple test in Rust:
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_add() {
+        let result = add(2, 3);
+        assert_eq!(result, 5);
+    }   
