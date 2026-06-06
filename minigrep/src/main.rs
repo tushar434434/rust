@@ -14,6 +14,7 @@ fn main() {
 //The first element is the name of the program, and the subsequent elements are the command-line arguments passed by the user.
 //saving the arguiment values in variables
 */
+/*
 use std::env;
 
 fn main() {
@@ -24,4 +25,22 @@ fn main() {
 
     println!("Searching for {query}");//This line prints a message to the console indicating what query we are searching for. The {query} syntax is a placeholder that will be replaced with the actual value of the query variable when the program runs.
     println!("In file {file_path}");//This line prints a message to the console indicating which file we are searching in. Similar to the previous line, the {file_path} syntax is a placeholder that will be replaced with the actual value of the file_path variable when the program runs.
+}*/
+
+
+use std::env;
+use std::fs;//The fs module provides functions for working with the file system, such as reading and writing files. In this case, we are using it to read the contents of a file specified by the user.
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+    let query = &args[1];
+    let file_path = &args[2];
+
+    println!("Searching for {query}");
+    println!("In file {file_path}");
+
+    let contents = fs::read_to_string(file_path)
+        .expect("Should have been able to read the file");
+
+    println!("With text:\n{contents}");
 }
