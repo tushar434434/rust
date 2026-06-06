@@ -5,7 +5,6 @@ fn main() {
 
     map.insert("a", 1);//inserting the key value
     map.insert("b",3);
-
     if let Some(v) = map.get("b") {
         println!("{}", v);//it will print the value 
     }
