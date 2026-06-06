@@ -13,7 +13,7 @@ mod tests {
     }
 }
 */
-/*
+
 pub fn add(left: u64, right: u64) -> u64 {
     left + right
 }
@@ -32,7 +32,7 @@ mod tests {
     fn another() {//This is another test function that will always fail because it contains a panic! macro. The panic! macro is used to indicate that something went wrong and the test should fail.
         panic!("Make this test fail");
     }
-}*/
+}
 
 
 //Testing equality with asert_eq! and assert_ne!
