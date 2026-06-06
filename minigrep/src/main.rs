@@ -19,9 +19,9 @@ use std::env;
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let query = &args[1];
-    let file_path = &args[2];
+    let query = &args[1];//The first argument (args[0]) is the name of the program itself, so we access the second argument (args[1]) to get the query string that the user wants to search for.
+    let file_path = &args[2];//The third argument (args[2]) is the file path that the user wants to search in. We store it in the file_path variable for later use.
 
-    println!("Searching for {query}");
-    println!("In file {file_path}");
+    println!("Searching for {query}");//This line prints a message to the console indicating what query we are searching for. The {query} syntax is a placeholder that will be replaced with the actual value of the query variable when the program runs.
+    println!("In file {file_path}");//This line prints a message to the console indicating which file we are searching in. Similar to the previous line, the {file_path} syntax is a placeholder that will be replaced with the actual value of the file_path variable when the program runs.
 }
