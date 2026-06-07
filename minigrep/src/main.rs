@@ -27,7 +27,7 @@ fn main() {
     println!("In file {file_path}");//This line prints a message to the console indicating which file we are searching in. Similar to the previous line, the {file_path} syntax is a placeholder that will be replaced with the actual value of the file_path variable when the program runs.
 }*/
 
-
+/*
 use std::env;
 use std::fs;//The fs module provides functions for working with the file system, such as reading and writing files. In this case, we are using it to read the contents of a file specified by the user.
 
@@ -43,4 +43,64 @@ fn main() {
         .expect("Should have been able to read the file");
 
     println!("With text:\n{contents}");
+}*/
+
+/*
+Problems in the Original Code
+==>main() was doing too many things:
+=>Parsing arguments
+=>Reading files
+=>Running search logic
+=>Handling errors
+=>Configuration values (query, file_path) were scattered.
+=>Error messages were not user-friendly.
+=>panic! was being used for user mistakes.*/
+//Separting the code into multiple functions to improve readability and maintainability.
+use std::env;
+use std::process;
+use std::error::Error;
+use std::fs;
+
+use minigrep::search;
+
+struct Config {
+    query: String,
+    file_path: String,
+}
+
+impl Config {
+    fn build(args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("not enough arguments");
+        }
+
+        let query = args[1].clone();
+        let file_path = args[2].clone();
+
+        Ok(Config { query, file_path })
+    }
+}
+
+fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let contents = fs::read_to_string(config.file_path)?;
+
+    for line in search(&config.query, &contents) {
+        println!("{line}");
+    }
+
+    Ok(())
+}
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::build(&args).unwrap_or_else(|err| {
+        eprintln!("Problem parsing arguments: {err}");
+        process::exit(1);
+    });
+
+    if let Err(e) = run(config) {
+        eprintln!("Application error: {e}");
+        process::exit(1);
+    }
 }
