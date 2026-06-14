@@ -108,3 +108,12 @@ fn main() {
     }
     // println!("{:?}", numbers); // ERROR: numbers has been moved
 }
+
+/*
+Loops and iterators in Rust have nearly the same performance.
+Iterators are zero-cost abstractions, meaning they add no runtime overhead.
+Rust optimizes iterator code through techniques like loop unrolling and eliminating bounds checks.
+Iterators provide a more expressive and readable way to process sequences.
+In many cases, iterator code compiles to the same machine code as hand-written loops.
+Therefore, developers can use iterators and closures without worrying about performance loss.
+Rust combines high-level abstractions with low-level efficiency.*/
