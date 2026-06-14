@@ -56,7 +56,7 @@ Problems in the Original Code
 =>Error messages were not user-friendly.
 =>panic! was being used for user mistakes.*/
 //Separting the code into multiple functions to improve readability and maintainability.
-use std::env;
+/*use std::env;
 use std::process;
 use std::error::Error;
 use std::fs;
@@ -99,6 +99,90 @@ fn main() {
         process::exit(1);
     });
 
+    if let Err(e) = run(config) {
+        eprintln!("Application error: {e}");
+        process::exit(1);
+    }
+}*/
+use std::env;      // Provides access to command-line arguments and environment variables
+use std::process;  // Allows us to terminate the program with an exit code
+use std::error::Error; // Trait for handling different kinds of errors
+use std::fs;       // Used to read files
+
+// Import both search functions from the library
+use minigrep::{search, search_case_insensitive};
+
+// Struct to store configuration values
+struct Config {
+    query: String,      // The text we want to search for
+    file_path: String,  // The file to search in
+    ignore_case: bool,  // Whether the search should ignore case
+}
+
+impl Config {
+    // Creates a Config instance from command-line arguments
+    fn build(args: &[String]) -> Result<Config, &'static str> {
+
+        // Ensure the user provides enough arguments
+        if args.len() < 3 {
+            return Err("not enough arguments");
+        }
+
+        // Clone the query and file path from the arguments
+        let query = args[1].clone();
+        let file_path = args[2].clone();
+
+        // Check if the IGNORE_CASE environment variable exists
+        // Returns true if it is set, false otherwise
+        let ignore_case = env::var("IGNORE_CASE").is_ok();
+
+        // Return the Config instance
+        Ok(Config {
+            query,
+            file_path,
+            ignore_case,
+        })
+    }
+}
+
+// Runs the application
+fn run(config: Config) -> Result<(), Box<dyn Error>> {
+
+    // Read the contents of the file
+    let contents = fs::read_to_string(config.file_path)?;
+
+    // Decide which search function to use
+    let results = if config.ignore_case {
+
+        // Perform case-insensitive search
+        search_case_insensitive(&config.query, &contents)
+
+    } else {
+
+        // Perform normal case-sensitive search
+        search(&config.query, &contents)
+    };
+
+    // Print each matching line
+    for line in results {
+        println!("{line}");
+    }
+
+    Ok(())
+}
+
+fn main() {
+
+    // Collect command-line arguments into a vector
+    let args: Vec<String> = env::args().collect();
+
+    // Build the configuration or exit with an error
+    let config = Config::build(&args).unwrap_or_else(|err| {
+        eprintln!("Problem parsing arguments: {err}");
+        process::exit(1);
+    });
+
+    // Run the program and handle any errors
     if let Err(e) = run(config) {
         eprintln!("Application error: {e}");
         process::exit(1);
