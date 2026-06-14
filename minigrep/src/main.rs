@@ -188,3 +188,11 @@ fn main() {
         process::exit(1);
     }
 }
+//redirecting  errors to standard error
+// Redirecting Errors to Standard Error
+// 1. Use println!() for normal program output (stdout).
+// 2. Use eprintln!() for error messages so they are sent to stderr.
+// 3. Separating stdout and stderr allows successful output to be redirected to files while keeping errors visible on the terminal.
+
+
+
