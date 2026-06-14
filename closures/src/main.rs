@@ -141,6 +141,8 @@ fn main(){
 }
 */
 
+
+/*
 use std::thread;
 
 fn main() {
@@ -152,4 +154,114 @@ fn main() {
 
     // println!("After defining closure: {list:?}"); // This line would cause a compile-time error because list has been moved into the closure and is no longer accessible in the main thread.
 }
+*/
 
+
+//moving captured values out of the closure ======
+
+
+
+//Fn ⊆ FnMut ⊆ FnOnce
+//Every closure implements at least FnOnce.
+//FnOnce: A closure that moves ownership out of itself can only be called once.
+/*fn main() {
+    let s = String::from("Hello");
+
+    let consume = || {
+        println!("{}", s);
+
+        // Move ownership out
+        drop(s);
+    };
+
+    consume();
+
+    // consume(); // ERROR: cannot call twice
+}
+*/
+// fnMut:The closure modifies captured variables but doesn't move them out.
+/*fn main() {
+    let mut counter = 0;
+
+    let mut increment = || {
+        counter += 1;
+        println!("counter = {}", counter);
+    };
+
+    increment();
+    increment();
+    increment();
+}*/
+
+
+// fn:Closure neither moves nor mutates anything.
+/*
+fn main() {
+    let x = 10;
+
+    let print_x = || {
+        println!("{}", x);
+    };
+
+    print_x();
+    print_x();
+    print_x();
+}*/
+
+//sort by key()
+/*
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let mut list = [
+        Rectangle {
+            width: 10,
+            height: 1,
+        },
+        Rectangle {
+            width: 3,
+            height: 5,
+        },
+        Rectangle {
+            width: 7,
+            height: 12,
+        },
+    ];
+
+    list.sort_by_key(|r| r.width);// The sort_by_key method sorts the list of rectangles based on the width field. The closure |r| r.width is passed as an argument to sort_by_key, which extracts the width from each rectangle and uses it as the key for sorting. After sorting, the rectangles will be ordered by their width in ascending order.
+
+    println!("{:#?}", list);
+}*/
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let mut list = [
+        Rectangle { width: 10, height: 1 },
+        Rectangle { width: 3, height: 5 },
+        Rectangle { width: 7, height: 12 },
+    ];
+
+    let mut num_sort_operations = 0;
+
+    list.sort_by_key(|r| {
+        num_sort_operations += 1;
+
+        r.width
+    });
+
+    println!(
+        "{:#?}, sorted in {} operations",
+        list,
+        num_sort_operations
+    );
+}
+
+//Functions are named reusable blocks of code, whereas closures are anonymous functions that can capture variables from their surrounding environment.
