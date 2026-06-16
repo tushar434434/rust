@@ -182,6 +182,7 @@ impl<T> Deref for MyBox<T> {
 }
 */
 //deref coercion converts a refernce to a type that implements the deref trait into a refernce to another type
+/*
 use std::ops::Deref;
 
 impl<T> Deref for MyBox<T> {
@@ -210,7 +211,7 @@ fn main() {
 fn main() {
     let m = MyBox::new(String::from("Rust"));
     hello(&(*m)[..]);
-}
+}*/
 
 //Hndling the deref coercion
 /* 
@@ -227,4 +228,52 @@ Mutable deref coercion uses the DerefMut trait and supports:
 &T → &U
 &mut T → &mut U
 &mut T → &U
-Rust allows converting mutable references to immutable references, but never the reverse (&T → &mut U), because doing so could violate Rust's borrowing rules and compromise memory safety.*/
+Rust allows converting mutable references to immutable references, but never the reverse (&T → &mut U), because doing so could violate Rust's borrowing rules and compromise memory safety.
+*/
+
+
+// The drop trait ============
+use std::mem::drop;//used for froce drop
+
+struct CustomSmartPointer {
+    data: String,
+}
+
+impl Drop for CustomSmartPointer {
+    fn drop(&mut self) {
+        println!("Dropping CustomSmartPointer with data `{}`!", self.data);
+    }
+}
+/*
+fn main() {
+    let c = CustomSmartPointer {
+        data: String::from("my stuff"),
+    };
+    let d = CustomSmartPointer {
+        data: String::from("other stuff"),
+    };
+    // c.drop(); //error destructor
+    println!("CustomSmartPointers created");
+}*/
+    /*
+At the end of main, our instances of CustomSmartPointer will go out of scope, and Rust will call the code we put in the drop method, printing our final message. Note that we didn’t need to call the drop method explicitly.
+*/
+/* output :
+CustomSmartPointers created
+Dropping CustomSmartPointer with data `other stuff`!
+Dropping CustomSmartPointer with data `my stuff`!
+*/
+//Variables are dropped in the reverse order of their creation
+
+fn main() {
+    let c = CustomSmartPointer {
+        data: String::from("some data"),
+    };
+    println!("CustomSmartPointer created");
+    drop(c);//forced drop
+    println!("CustomSmartPointer dropped before the end of main");
+}
+/*output:
+CustomSmartPointer created
+Dropping CustomSmartPointer with data `some data`!
+CustomSmartPointer dropped before the end of main*/
