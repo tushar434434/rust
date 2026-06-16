@@ -331,7 +331,8 @@ fn main() {
    b:3           c:4    */
 
  //  Rc::clone() does not copy the data it only increase refernce count
-use std::rc::Rc;
+/*
+ use std::rc::Rc;
 enum List {
     Cons(i32, Rc<List>),
     Nil,
@@ -360,3 +361,60 @@ fn main() {
     println!("count after c goes out of scope = {}",
              Rc::strong_count(&a));
 }
+// Limitation:Rc<T> only provides shared immutable access.*/
+
+
+//========interior mutability======
+//With RefCell<T>, the outside can be immutable, but the inside can still be modified.
+/*
+use std::cell::RefCell;
+fn main() {
+    let x = RefCell::new(5);
+    *x.borrow_mut() += 1;
+    println!("{}", x.borrow());
+}
+*/
+//Borrow rules are checked at compile time
+/*let mut x = 5;
+let r1 = &mut x;
+let r2 = &mut x; // Compiler error
+*/
+//RefCell<T>:Borrow rules are checked at runtime.
+/*
+use std::cell::RefCell;
+fn main() {
+    let x = RefCell::new(5);
+
+    let a = x.borrow_mut();
+    let b = x.borrow_mut(); // Compiles
+
+}*/
+//borrow() for refcell to work
+//borrow_mut()
+/*
+let x = RefCell::new(5);
+let m = x.borrow_mut();
+*/ //Only one mutable borrow at a time.
+
+//refcell keeps a counter. it can have many readrs but only one writer
+
+//Rc<T> + RefCell<T>  =>which means:Multiple owners + Mutable shared data
+
+use std::cell::RefCell;
+use std::rc::Rc;
+fn main() {
+    let value = Rc::new(RefCell::new(5));
+    let a = Rc::clone(&value);
+    let b = Rc::clone(&value);
+    *value.borrow_mut() += 10;
+    println!("{}", a.borrow());
+    println!("{}", b.borrow());
+}//All owners observe the same change.
+/*
+Type	          Owners	    Mutable?	    Borrow Check
+Box<T>	           One	           Yes	          Compile time
+Rc<T>             Many	            No	          Compile time
+RefCell<T>	       One	            Yes	            Runtime
+Rc<RefCell<T>>	   Many	            Yes          	Runtime
+Arc<Mutex<T>>	   Many threads	    Yes          	Runtime
+*/
