@@ -233,6 +233,7 @@ Rust allows converting mutable references to immutable references, but never the
 
 
 // The drop trait ============
+/*
 use std::mem::drop;//used for froce drop
 
 struct CustomSmartPointer {
@@ -272,8 +273,90 @@ fn main() {
     println!("CustomSmartPointer created");
     drop(c);//forced drop
     println!("CustomSmartPointer dropped before the end of main");
-}
+}*/
 /*output:
 CustomSmartPointer created
 Dropping CustomSmartPointer with data `some data`!
 CustomSmartPointer dropped before the end of main*/
+
+//=====Refernce counted smart pointer==========
+/*
+Rc<T> allows multiple owners of the same data in a single-threaded program.
+Box<T> → one owner
+Rc<T> → many owners
+Data is deleted automatically when the reference count becomes 0.*/
+/*//With Box<T>, ownership is exclusive.
+enum List {
+    Cons(i32, Box<List>),
+    Nil,
+}
+use List::{Cons, Nil};
+
+fn main() {
+    let a = Cons(5, Box::new(
+                Cons(10, Box::new(Nil))));
+
+    let b = Cons(3, Box::new(a)); // a moved here
+    let c = Cons(4, Box::new(a)); // ERROR!
+}*/
+/*
+use std::rc::Rc;
+use List::{Cons, Nil};
+
+enum List {
+    Cons(i32, Rc<List>),
+    Nil,
+}
+
+fn main() {
+    let a = Rc::new(
+        Cons(5,
+            Rc::new(
+                Cons(10,
+                    Rc::new(Nil)
+                )
+            )
+        )
+    );
+
+    let b = Cons(3, Rc::clone(&a));
+    let c = Cons(4, Rc::clone(&a));
+}*/
+/*//all three share ownership
+       Rc<List>
+          a
+      5 -> 10 -> Nil
+       ^         ^
+       |         |
+   b:3           c:4    */
+
+ //  Rc::clone() does not copy the data it only increase refernce count
+use std::rc::Rc;
+enum List {
+    Cons(i32, Rc<List>),
+    Nil,
+}
+use List::{Cons, Nil};
+fn main() {
+    let a = Rc::new(
+        Cons(5,
+            Rc::new(
+                Cons(10,
+                    Rc::new(Nil)
+                )
+            )
+        )
+    );
+    println!("count after creating a = {}",
+             Rc::strong_count(&a));
+    let b = Cons(3, Rc::clone(&a));
+    println!("count after creating b = {}",
+             Rc::strong_count(&a));
+    {
+        let c = Cons(4, Rc::clone(&a));
+        println!("count after creating c = {}",
+                 Rc::strong_count(&a));
+    } // c dropped here
+    println!("count after c goes out of scope = {}",
+             Rc::strong_count(&a));
+}
