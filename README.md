@@ -1,91 +1,87 @@
-# Rust Learning Repository 🦀
+# 🦀 Rust Journey
 
-This repository contains my Rust programming practice and notes while learning Rust from *The Rust Programming Language* book.
+Welcome to my Rust learning repository! This repo documents my journey through the Rust programming language, containing hands-on examples, exercises, and mini-projects inspired by **The Rust Programming Language** book and personal experimentation.
 
-## Topics Covered
+## 📚 What You'll Find
 
-* Variables
-* Ownership
-* References and Borrowing
-* Slices
-* Structs
-* Enums
-* Collections
-* Error Handling
-* Generics
-* Traits
-* Lifetimes
-* Packages and Crates
-* Testing
+Each directory focuses on a specific Rust concept:
 
-## Repository Structure
+| Topic              | Description                                   |
+| ------------------ | --------------------------------------------- |
+| `variables`        | Variables, constants, and mutability          |
+| `ownership`        | Understanding Rust's ownership model          |
+| `refernces`        | Borrowing and references                      |
+| `slices`           | Working with string and array slices          |
+| `structs`          | Defining and using custom data structures     |
+| `enums`            | Enums and pattern matching                    |
+| `collections`      | Vectors, strings, and hash maps               |
+| `traits`           | Shared behavior with traits                   |
+| `genric`           | Generic types and functions                   |
+| `lifetime`         | Lifetime annotations and relationships        |
+| `closures`         | Anonymous functions and captured environments |
+| `iterators`        | Iteration patterns and adapters               |
+| `error`            | Error handling with `Option` and `Result`     |
+| `tests`            | Writing unit and integration tests            |
+| `packages`         | Crates and package organization               |
+| `cargo`            | Cargo commands and workflow                   |
+| `cargo-workspaces` | Managing multiple crates with workspaces      |
+| `minigrep`         | A mini command-line search tool               |
+| `adder`            | Library and testing examples                  |
 
-```text
-variables/
-ownership/
-refernces/
-slices/
-structs/
-enums/
-collections/
-error/
-genric/
-traits/
-lifetime/
-packages/
-tests/
-hello_cargo/
-adder/
-revsion_hashmap/
-```
+---
 
-## Learning Goals
+## 🚀 Getting Started
 
-* Understand Rust ownership and borrowing.
-* Learn memory-safe systems programming.
-* Build command-line applications with Rust.
-* Practice testing and error handling.
-* Prepare for backend and systems programming projects.
-
-## Projects
-
-### Adder
-
-A small Rust project for learning testing and package organization.
-
-### Revision HashMap
-
-Practice project covering Rust HashMap operations and iteration.
-
-## Running a Project
+Clone the repository:
 
 ```bash
-cd project_name
+git clone <repository-url>
+cd <repository-name>
+```
+
+Navigate to any topic and run the project:
+
+```bash
+cd ownership
 cargo run
 ```
 
-## Running Tests
+Run tests:
 
 ```bash
 cargo test
 ```
 
-## Progress
+---
 
-* [x] Variables and Mutability
-* [x] Ownership and Borrowing
-* [x] Structs and Enums
-* [x] Collections
-* [x] Error Handling
-* [x] Generics and Traits
-* [x] Lifetimes
-* [x] Testing
-* [ ] Concurrency
-* [ ] Async Rust
-* [ ] Web Development with Rust
+## 🎯 Goals
 
-## Author
+* Learn Rust fundamentals from the ground up.
+* Build intuition for ownership, borrowing, and lifetimes.
+* Explore Rust's powerful type system and abstractions.
+* Practice writing clean, safe, and efficient code.
+* Develop small projects and experiments along the way.
 
-Tushar Kumar
+---
 
-Learning Rust one chapter at a time.
+## 🛠️ Built With
+
+* **Rust**
+* **Cargo**
+* **The Rust Programming Language (TRPL)**
+
+---
+
+## 📖 Resources
+
+* The Rust Programming Language Book: https://doc.rust-lang.org/book/
+* Rust Documentation: https://www.rust-lang.org/learn
+* Rust Standard Library: https://doc.rust-lang.org/std/
+
+---
+
+## 🌱 Still Learning
+
+This repository is continuously evolving as I explore new Rust concepts and improve my understanding. Feel free to explore, learn, and share suggestions!
+
+⭐ If you find this repository useful, consider giving it a star!
