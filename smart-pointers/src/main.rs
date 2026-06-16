@@ -399,7 +399,7 @@ let m = x.borrow_mut();
 //refcell keeps a counter. it can have many readrs but only one writer
 
 //Rc<T> + RefCell<T>  =>which means:Multiple owners + Mutable shared data
-
+/*
 use std::cell::RefCell;
 use std::rc::Rc;
 fn main() {
@@ -409,7 +409,11 @@ fn main() {
     *value.borrow_mut() += 10;
     println!("{}", a.borrow());
     println!("{}", b.borrow());
-}//All owners observe the same change.
+}
+*/
+//Reference Cell.
+    
+//All owners observe the same change.
 /*
 Type	          Owners	    Mutable?	    Borrow Check
 Box<T>	           One	           Yes	          Compile time
@@ -418,3 +422,18 @@ RefCell<T>	       One	            Yes	            Runtime
 Rc<RefCell<T>>	   Many	            Yes          	Runtime
 Arc<Mutex<T>>	   Many threads	    Yes          	Runtime
 */
+
+
+//=======Reference Cycles and Weak<T>=====
+/*
+Rust guarantees memory safety, but not freedom from memory leaks.
+A memory leak occurs when:
+Object A owns Object B
+Object B owns Object A
+Both keep each other alive forever.*/
+/*
+Rc<T> and RefCell<T> together can accidentally create reference cycles, causing memory leaks because the reference count never reaches zero.
+A memory leak is safe in Rust, but the leaked memory will never be freed.
+Weak<T> provides a non-owning reference that increases weak_count instead of strong_count.
+Weak references do not prevent data from being dropped and therefore help avoid reference cycles.
+Use Rc<T> for ownership relationships and Weak<T> for non-ownership relationships, such as child-to-parent links in trees.*/
