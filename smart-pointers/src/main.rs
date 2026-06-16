@@ -94,6 +94,7 @@ fn main() {
 
     println!("{}", b);
 }*/
+/*
 #[derive(Debug)]
 enum Tree {
     Node(i32, Box<Tree>, Box<Tree>),
@@ -132,4 +133,98 @@ fn main() {
 
         Empty => println!("Empty"),
     }
+}*/
+//=======Treating Smart Pointers Like Regular References=======
+//derefernce Deref implementation
+/*
+fn main() {
+    let x = 5;
+    let y = &x;
+
+    assert_eq!(5, x);
+ //   assert_eq!(5, *y); error bcs coparison between integer and address
+} */
+ //We can rewrite the code in Listing 15-6 to use a Box<T> instead of a reference; the dereference operator used on the Box<T>
+/*
+ fn main(){
+    let x=3;
+    let y=Box::new(x);
+    assert_eq!(3,x);
+    assert_eq!(3,*y);
+}*/
+//In Rust, assert_eq! is a macro used to check whether two values are equal. If they are not equal, the program panics and displays both values.
+
+//definig own smart pointer
+/*
+struct MyBox<T>(T);//struct name is mybox and declare a generic parameter T 
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
 }
+    fn main() {
+    let x = 5;
+    let y = MyBox::new(x);
+    assert_eq!(5, x);
+  //  assert_eq!(5, *y); //error cant be dereferenced
+
+}*/
+
+
+//implementing the deref trait
+/*
+use std::ops::Deref;
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+*/
+//deref coercion converts a refernce to a type that implements the deref trait into a refernce to another type
+use std::ops::Deref;
+
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
+}
+fn hello(name: &str) {
+    println!("Hello, {name}!");
+}
+/*
+fn main() {
+    let m = MyBox::new(String::from("Rust"));
+    hello(&m);
+}*/
+fn main() {
+    let m = MyBox::new(String::from("Rust"));
+    hello(&(*m)[..]);
+}
+
+//Hndling the deref coercion
+/* 
+Rust does deref coercion when it finds types and trait implementations in three cases:
+From &T to &U when T: Deref<Target=U>
+From &mut T to &mut U when T: DerefMut<Target=U>
+From &mut T to &U when T: Deref<Target=U>
+*/
+/*
+Deref coercion automatically converts references from one type to another compatible type using the Deref trait, making function and method calls easier.
+Rust repeatedly calls deref() as many times as needed at compile time, so there is no runtime overhead.
+For example, &MyBox<String> → &String → &str, allowing hello(&m) to work when hello expects a &str.
+Mutable deref coercion uses the DerefMut trait and supports:
+&T → &U
+&mut T → &mut U
+&mut T → &U
+Rust allows converting mutable references to immutable references, but never the reverse (&T → &mut U), because doing so could violate Rust's borrowing rules and compromise memory safety.*/
