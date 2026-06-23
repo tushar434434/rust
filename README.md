@@ -84,4 +84,4 @@ cargo test
 
 This repository is continuously evolving as I explore new Rust concepts and improve my understanding. Feel free to explore, learn, and share suggestions!
 
-⭐ If you find this repository useful, consider giving it a star!
+⭐ If you find this repository useful, consider giving it a star.
