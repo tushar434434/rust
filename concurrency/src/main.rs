@@ -57,6 +57,7 @@ fn main(){
 //Transfer data btw threads with message passing
 
 //Creating Multiple Producers
+/*
 use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
@@ -92,4 +93,47 @@ fn main() {
         println!("Got: {received}");
     }
 
+}*/
+//Shared state concurrency 
+//multiple threads work on the same piece of data .
+//Mutex (Mutual Exclusion) is a synchronization primitive that allows only one thread at a time to access shared data.
+//mutex has two rules lock before accessing the data and the second is unlock after finishing rust this automatically when the lock goes out of scope.
+/*
+use std::sync::Mutex;
+fn main(){
+    let m =Mutex::new(5);
+    {
+        let mut value =m.lock().unwrap();
+        *value =10;
+    }
+    println!("{:?}",m);
+}*/
+//Arc<T>:Arc stands for Atomic Reference Counted.
+//It is the thread-safe version of Rc
+use std::sync::{Arc, Mutex};
+use std::thread;
+
+fn main() {
+    let counter = Arc::new(Mutex::new(0));
+    let mut handles = vec![];
+    for _ in 0..10 {
+        let counter = Arc::clone(&counter);
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
+            *num += 1;
+        });
+        handles.push(handle);
+    }
+    for handle in handles {
+        handle.join().unwrap();
+    }
+    println!("{}", *counter.lock().unwrap());
 }
+/*
+Send → Ownership can be safely moved between threads.
+Sync → Shared references (&T) can be safely accessed by multiple threads.
+Rc<T> is not Send or Sync because its reference counting is not thread-safe.
+Arc<T> is thread-safe because it uses atomic reference counting.
+Mutex<T> allows only one thread to access shared data at a time, making shared mutation safe.
+Most primitive and standard Rust types automatically implement Send and Sync.
+Manual implementation of these traits is unsafe and only needed for advanced concurrency primitives.*/
