@@ -133,7 +133,7 @@ fn main(){
             println!("Got: {received}");
             */
             
-            let (tx, mut rx) = trpl::channel();
+           // let (tx, mut rx) = trpl::channel();
             /*
             let vals = vec![
                 String::from("hi"),
@@ -176,7 +176,7 @@ fn main(){
 //======= joining a number of futures with the join! macro
 
        // let (tx, mut rx) = trpl::channel();
-
+/*
         let tx1 = tx.clone();
         let tx1_fut = async move {
             let vals = vec![
@@ -217,7 +217,10 @@ fn main(){
 }
 );
 
-}
+}*/
+
+//=========yielding control to the runtime =========
+//
 
 
 
