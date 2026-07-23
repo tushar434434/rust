@@ -238,18 +238,31 @@ trpl::select(a, b).await;*/
 
 
 // solution is to add await
-
+/*
 let one_ms = Duration::from_millis(1);
-
 let a = async {
     slow("A",30);
     trpl::sleep(one_ms).await;
-
     slow("A",20);
     trpl::sleep(one_ms).await;
-
     slow("A",10);
-};
+};*/
+// its called cooperative multitasking
+
+
+// we can also use the yield_now function to yield control to the runtime, allowing other tasks to run. This is useful when we have a long-running task that does not have any .await points, and we want to give other tasks a chance to run.
+//cooperative multitasking is each future decides when to pause itself
+//Unlike threads, the OS doesn't force switching—the future cooperates by reaching an await.
+
+//timeout is a way to limit how long a future can run before it is cancelled. This is useful when we have a future that may take a long time to complete, and we want to avoid blocking other tasks indefinitely. We can use the timeout function to wrap a future and specify a maximum duration for it to run. If the future does not complete within the specified duration, it will be cancelled and return an error.
+//The timeout function is implemented using a combination of the select and sleep functions. It creates a new future that waits for either the original future to complete or the specified duration to elapse. If the original future completes first, it returns its result. If the duration elapses first, it returns an error indicating that the future timed out.
+//Runs multiple futures at the same time, but returns the one that finishes first.
+
+//Rust switches tasks only at .await points. Without an await, the current task keeps running and other tasks cannot make progress.
+
+//sleep() pauses execution for a duration.
+//yield_now() immediately hands control back to the runtime without waiting, making it more efficient when you just want other tasks to run.
+
 
 
 
