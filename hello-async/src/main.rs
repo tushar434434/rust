@@ -74,10 +74,10 @@ async fn page_title(url: &str) -> (&str, Option<String>) {
 //=========applying concurrency with async ==============
 
 //creating  a new task with spawn_task
-use std::time::Duration;
+//use std::time::Duration;
 
-fn main(){
-    trpl::block_on(async{
+//fn main(){
+  //  trpl::block_on(async{
         /*async {
         trpl::spawn_task(async {
             for i in 1..10 {
@@ -220,7 +220,37 @@ fn main(){
 }*/
 
 //=========yielding control to the runtime =========
-//
+//An async function does not automatically switch to another task.
+//It keeps running until it reaches an .await.
+
+
+//=====  starvation problem=====
+/*
+let a = async {
+    slow("A", 30);
+    slow("A", 20);
+    slow("A", 10);
+};
+let b = async {
+    println!("B started");
+};
+trpl::select(a, b).await;*/
+
+
+// solution is to add await
+
+let one_ms = Duration::from_millis(1);
+
+let a = async {
+    slow("A",30);
+    trpl::sleep(one_ms).await;
+
+    slow("A",20);
+    trpl::sleep(one_ms).await;
+
+    slow("A",10);
+};
+
 
 
 
