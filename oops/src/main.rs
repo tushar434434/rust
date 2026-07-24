@@ -4,7 +4,7 @@
 
 //inhertance is not supported in rust but it can be achieved using traits. A trait is a collection of methods that define a common behavior for types. A struct can implement a trait to inherit its methods and provide its own implementation. This allows for code reuse and polymorphism, as different structs can implement the same trait in different ways.
 //polymorphism is supported in rust through traits. A trait defines a set of methods that a type must implement, and different types can implement the same trait in different ways. This allows for code reuse and flexibility, as functions can accept parameters of any type that implements a specific trait, enabling polymorphic behavior.
-trait Shape {
+/*trait Shape {
     fn area(&self) -> f64;
 }
 
@@ -43,4 +43,58 @@ fn main() {
     print_area(&c);
     print_area(&r);
 }
+    */
 //Polymorphism means:One interface, many implementations.
+
+
+//=====Traits========
+trait Draw {
+    fn draw(&self);
+}
+
+struct Button {
+    label: String,
+}
+
+struct TextField {
+    placeholder: String,
+}
+
+impl Draw for Button {
+    fn draw(&self) {
+        println!("Button: {}", self.label);
+    }
+}
+
+impl Draw for TextField {
+    fn draw(&self) {
+        println!("TextField: {}", self.placeholder);
+    }
+}
+
+struct Screen {
+    components: Vec<Box<dyn Draw>>,
+}
+
+impl Screen {
+    fn run(&self) {
+        for c in &self.components {
+            c.draw();
+        }
+    }
+}
+
+fn main() {
+    let screen = Screen {
+        components: vec![
+            Box::new(Button {
+                label: "OK".into(),
+            }),
+            Box::new(TextField {
+                placeholder: "Enter Name".into(),
+            }),
+        ],
+    };
+
+    screen.run();
+}
