@@ -75,13 +75,18 @@ fn main(){
         println!("{}",COUNTER);
     }
 }*/
-
 //unsafe traits
-
 //sometimes rust cannot verify trait safety;
-
+/*
 unsafe trait Demo {}
 unsafe impl Demo for i32 {}
 fn main(){
     println!("unsafe traits");
-}
+}*/
+
+//Miri is a rust tool that detects undefined behaviour at runtime
+/*Miri helps find:
+Invalid pointers
+Undefined behavior
+Memory errors
+Dangling pointers*/
