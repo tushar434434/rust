@@ -120,4 +120,8 @@ for loop	                        ✅ Required	           ❌ Not allowed
 if let	                            ✅ Allowed	           ✅ Preferred
 while let	                        ✅ Allowed	           ✅ Preferred
 let...else	                        ❌ Warning if irrefutable	✅ Preferred
-match arms                      	Mostly refutable	    Last arm can be _
+match arms                      	Mostly refutable	Last arm can be _
+
+
+//@ operator do?
+It binds a matched value to a variable while simultaneously checking that it satisfies a pattern, such as a range.
