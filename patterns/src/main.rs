@@ -92,14 +92,32 @@ fn main(){
 //pattren in functions
 
 //function parameters can also use patterns to destructure values passed to the function
-
+/*
 fn print(&(x,y): &(i32,i32)){
     println!("x: {}, y: {}",x,y);
 }
 fn main(){
     let point = (10,20);
     print(&point);
-}
+}*/
 //Patterns are a special syntax used to match the structure of data, extract values, ignore values, and control program flow.
 //_ matches any value but ignores it. It is commonly used as a catch-all case in match.
 //if let is shorter and more readable when you only need to handle one matching pattern.
+
+
+
+//=======Refutability of patterns ========
+
+//patterns are classified as refutable or irrefutable. An irrefutable pattern will always match, while a refutable pattern may not match. For example, a variable binding is an irrefutable pattern, while a match arm with a specific value is a refutable pattern.
+//irrefutable patterns can never fail to match
+
+//a refutable pattern might fail for some values
+/*
+Place	                            Irrefutable	            Refutable
+let             	                ✅ Required	           ❌ Not allowed
+Function Parameters	                ✅ Required	           ❌ Not allowed
+for loop	                        ✅ Required	           ❌ Not allowed
+if let	                            ✅ Allowed	           ✅ Preferred
+while let	                        ✅ Allowed	           ✅ Preferred
+let...else	                        ❌ Warning if irrefutable	✅ Preferred
+match arms                      	Mostly refutable	    Last arm can be _
