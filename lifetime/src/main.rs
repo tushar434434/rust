@@ -40,3 +40,5 @@ where
     println!("Announcement! {ann}");
     if x.len() > y.len() { x } else { y }
 }*/
+
+//revise lifetime rules: The lifetime of a reference must always be less than or equal to the lifetime of the data it points to. This means that a reference cannot outlive the data it refers to, preventing dangling references and ensuring memory safety.
